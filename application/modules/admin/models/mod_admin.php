@@ -2,7 +2,6 @@
 class Mod_admin extends CI_Model{
 	function __construct(){
 		parent::__construct();
-		$this->load->database();		
 	}	
 	// hàm kiểm tra tài khoản có trong csdl hay ko:
 	function mod_check_user($email, $password){

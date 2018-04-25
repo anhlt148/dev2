@@ -27,12 +27,12 @@
             <i class="fa fa-user fa-fw"></i> secondtruth <b class="caret"></b>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i> Tài khoản cá nhân</a>
+            <li><a href="<?php echo base_url().'admin/profile'?>"><i class="fa fa-user fa-fw"></i> Tài khoản cá nhân</a>
             </li>
-            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Cài đặt</a>
+            <li><a href="<?php echo base_url().'admin/settings'?>"><i class="fa fa-gear fa-fw"></i> Cài đặt</a>
             </li>
             <li class="divider"></li>
-            <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
+            <li><a href="<?php echo base_url().'admin/login'?>"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
             </li>
         </ul>
     </li>

@@ -7,7 +7,7 @@
 <body>
 
 <h2>Đăng nhập hệ thống</h2>
-<form method="post" action="<?php echo base_url().'admin/auth_user';?>">
+<form method="post" enctype="multipart/form-data" action="<?php echo base_url().'admin/auth_user';?>">
   <div class="imgcontainer">
     <img src="<?php echo base_url().'images/login.png' ?>" alt="Avatar" class="avatar">
     <p class="notify_error"><?php if(isset($error)){echo $error;} else{ echo "";}?></p>

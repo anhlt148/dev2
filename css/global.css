@@ -1,0 +1,15 @@
+.fa-toggle-on{
+    font-size: 25px !important;
+    color: #3bac3b;
+}
+.fa-toggle-off{
+    font-size: 25px ! important;
+    color: #888;
+}
+div.panel-heading{
+    line-height: 34px !important;
+}
+.form-group{
+    line-height: 37px !important;
+    padding: 5px 0 !important;
+}

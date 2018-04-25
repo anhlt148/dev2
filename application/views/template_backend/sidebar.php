@@ -16,6 +16,10 @@
             <li>
                 <a href="<?php echo base_url().'admin/dashboard'?>" class="<?php (isset($dashboard)?"active":"")?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
+            <!-- category type -->
+            <li>
+                <a href="<?php echo base_url().'admin_category_type/grid'?>" class="<?php (isset($category_type)?"active":"")?>"><i class="fa fa-bars fa-fw"></i> Loại danh mục</a>
+            </li>
             <!-- Charts -->
             <li>
                 <a href="#" class="<?php (isset($Charts)?"active":"")?>"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>

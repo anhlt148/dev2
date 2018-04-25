@@ -8,19 +8,25 @@
     <meta name="author" content="">
 
     <title><?php echo (isset($title_page)?$title_page:"Startmin - Bootstrap Admin Theme");?></title>
-
+    <!-- file global -->
+    <link href="<?php echo base_url().'css/global.css'?>" rel="stylesheet">
     <!-- Bootstrap Core CSS -->    
     <link href="<?php echo base_url().'css/backend/template/bootstrap.min.css'?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url().'css/backend/template/metisMenu.min.css'?>" rel="stylesheet">
     <!-- Timeline CSS -->
-    <link href="<?php echo base_url().'cssbackend/template//timeline.css'?>" rel="stylesheet">
+    <link href="<?php echo base_url().'cssbackend/template/timeline.css'?>" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?php echo base_url().'css/backend/template/startmin.css'?>" rel="stylesheet">
     <!-- Morris Charts CSS -->
     <link href="<?php echo base_url().'css/backend/template/morris.css'?>" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="<?php echo base_url().'css/font-awesome.min.css'?>" rel="stylesheet" type="text/css">
+    <!-- DataTables CSS -->    
+    <link href="<?php echo base_url().'css/backend/template/dataTables/dataTables.bootstrap.css'?>" rel="stylesheet">
+    <!-- DataTables Responsive CSS -->
+    <link href="<?php echo base_url().'css/backend/template/dataTables/dataTables.responsive.css'?>" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -63,7 +69,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header"><?php echo (isset($title)?$title:"");?></h1>
+                    <h2 class="page-header"><?php echo (isset($title)?$title:"");?></h2>
                 </div>
             </div>
 
@@ -82,6 +88,23 @@
 <script src="<?php echo base_url().'js/template/metisMenu.min.js'?>"></script>
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo base_url().'js/template/startmin.js'?>"></script>
+<!-- DataTables JavaScript -->
+<script src="<?php echo base_url().'js/template/dataTables/jquery.dataTables.min.js'?>"></script>
+<script src="<?php echo base_url().'js/template/dataTables/dataTables.bootstrap.min.js'?>"></script>
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+
+<!-- js global -->
+<script src="<?php echo base_url().'js/global.js'?>"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+</script>
+
+<input class="user_role" type="hidden" name="user_role" value="<?php echo (isset($role)?$role:'')?>">
 
 </body>
 </html>
