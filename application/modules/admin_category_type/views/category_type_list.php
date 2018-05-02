@@ -9,7 +9,7 @@
 			<!-- /.panel-heading -->
 			<div class="panel-body">
 				<div class="table-responsive">
-					<table class="table">
+					<table id="grid_list" class="table">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -44,9 +44,8 @@
 										</td>
 										<td>
 											<button type="button" class="btn btn-info" title="Xem" style="padding:1px 6px;"><i class="fa fa-info-circle"></i></button>
-											<button type="button" class="btn btn-warning" title="Sửa" style="padding:1px 6px;"><i class="fa fa-pencil-square-o"></i></button>
-											<button type="button" class="btn btn-danger" title="Xóa" onclick="return doconfirm();" style="padding:1px 6px;"><i class="fa fa-trash-o"></i></button>
-											
+											<button type="button" class="btn btn-warning" title="Sửa" onclick="doconfirm2(this);" style="padding:1px 6px;" href="<?php echo base_url().'admin_category_type/edit/'.$value['type_id'];?>"><i class="fa fa-pencil-square-o"></i></button>
+											<button type="button" class="btn btn-danger" title="Xóa" onclick="on_delete_record(this);" href="<?php echo base_url().'admin_category_type/delete/'.$value['type_id'];?>" style="padding:1px 6px;"><i class="fa fa-trash-o"></i></button>
 										</td>
 									</tr>
 								<?php
@@ -64,7 +63,7 @@
 
 		<!-- form thêm mới -->	
 		<div id="create_new" class="panel panel-default" style="display:none;">
-            <form method="post" enctype="multipart/form-data" action="<?php echo base_url().'admin_category_type/add'?>">
+            <form>
                 <fieldset style="padding: 10px 0;">
                     <!-- mã -->
                     <div class="form-group">
@@ -72,7 +71,7 @@
                             <label for="">Mã loại danh mục</label>
                         </div>
                         <div class="col-lg-9">
-                            <input class="form-control" id="" type="text" placeholder="Bắt buộc...">
+                            <input class="form-control" id="code_cate" type="text" placeholder="Bắt buộc...">
                         </div>
                     </div>
                     <div style="clear: both;"></div>
@@ -82,7 +81,7 @@
                             <label for="">Tên loại danh mục</label>
                         </div>
                         <div class="col-lg-9">
-                            <input class="form-control" id="" type="text" placeholder="Bắt buộc...">
+                            <input class="form-control" id="name_cate" type="text" placeholder="Bắt buộc...">
                         </div>
                     </div>
                     <div style="clear: both;"></div>
@@ -92,7 +91,7 @@
                             <label for="">Trạng thái</label>
                         </div>
                         <div class="col-lg-9">
-                            <select id="" class="form-control">
+                            <select id="status_cate" class="form-control">
                                 <option value="on">Hoạt động</option>
                                 <option value="off">Khóa</option>
                             </select>
@@ -108,7 +107,7 @@
                     
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_category_type/add'?>">Lưu</button>
                             <button type="reset" class="btn btn-danger">Hủy</button>
                             <button type="button" onclick="back_to_list()" class="btn btn-warning">Danh sách</button>
                         </div>

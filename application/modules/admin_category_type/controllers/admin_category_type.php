@@ -1,11 +1,11 @@
 <?php
 class Admin_category_type extends CI_Controller{
 	public $_data = array();
-
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('mod_category_type');
 		$this->_data['role'] = $_SESSION['user_role'];
+		$this->_data['js_load'] = "category_type.js";
 	}
 	// danh sách:
 	public function grid(){		
@@ -19,14 +19,19 @@ class Admin_category_type extends CI_Controller{
 	// thêm mới:
 	public function add(){
 		is_login();
-		if(isset($_POST['submit'])){
-			echo "Thêm mới loại danh mục Thêm mới loại danh mục Thêm mới loại danh mục Thêm mới loại danh mục";
+		if (isset($_POST['data'])) {
+			$arr = $_POST['data'];
+			$rs = $this->mod_category_type->insert($arr);
+			if($rs == false){
+				$objReturn = array('result' => false, 'message' => "Loại danh mục đã tồn tại");
+			}
+			else{
+				$objReturn = array('result' => $rs, 'message' => "");
+			}
+			echo json_encode($objReturn); 
 		}
-		else{
-			$this->_data['content'] = 'category_add';
-			$this->_data['title_page'] = 'Thêm mới loại danh mục';
-			$this->_data['error'] = '';			
-			$this->load->view('template_backend', $this->_data);
+		else {
+			echo json_encode(array('result' => false, 'message' => "Dữ liệu sai"));
 		}
 	}
 	// insert:
@@ -52,7 +57,7 @@ class Admin_category_type extends CI_Controller{
 				);
 				$statusInsert = $this->mod_category->mod_category_insert($dataArr);
 				if($statusInsert != ''){
-					redirect(base_url().'admin_category/admin_category_list?status=add');
+					redirect(base_url().'admin_category_type/admin_category_list?status=add');
 				}
 				else{
 					$this->_data['error'] = 'Thêm mới thất bại';
@@ -61,10 +66,10 @@ class Admin_category_type extends CI_Controller{
 			}
 		}	
 		else{
-			redirect(base_url().'admin_category/admin_category_list?status=notAllow');
+			redirect(base_url().'admin_category_type/admin_category_list?status=notAllow');
 		}
 	}
-	// sửa danh mục:
+	// Edit:
 	public function edit(){		
 		if($this->_role['user_role'] == 'owner' || $this->_role['user_role'] == 'admin'){
 			$id = $this->uri->segment(3);
@@ -76,10 +81,10 @@ class Admin_category_type extends CI_Controller{
 			$this->load->view('template_backend', $this->_data);
 		}
 		else{			
-			redirect(base_url().'admin_category/admin_category_list?status=notAllow');
+			redirect(base_url().'admin_category_type/admin_category_list?status=notAllow');
 		}
 	}
-	// update thành viên:
+	// Update:
 	public function admin_category_update(){
 		$user_role = $this->_role['user_role'];	
 		if($user_role == 'owner' || $user_role == 'admin'){
@@ -111,17 +116,12 @@ class Admin_category_type extends CI_Controller{
 	}
 	// Delete:
 	public function delete(){
-		$user_role = $this->_role['user_role'];	
-		if($user_role == 'owner' || $user_role == 'admin'){
-			$id = $this->uri->segment(3);
-			$this->mod_category_type->mod_category_delete($id);	
-			redirect(base_url().'admin_category/admin_category_list?status=delete');
-		}
-		else{
-			redirect(base_url().'admin_category/admin_category_list?status=notAllow');
-		}
+		$id = $this->uri->segment(3);
+		$this->mod_category_type->delete($id);	
+		$rs = array('result' => true, 'message' => "");
+		echo json_encode ($rs) ; 
 	}
-	// hàm thay đổi trạng thái:
+	// change status:
 	public function change_status() {
 		is_login();
 		$id = $this->uri->segment(3);			

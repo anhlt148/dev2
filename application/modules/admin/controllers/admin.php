@@ -25,6 +25,9 @@ class Admin extends CI_Controller{
 	public function auth_user() {
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
+		// echo $email;
+		// echo $password;
+		// die;
 		$result = $this->mod_admin->mod_check_user($email, $password);
 		if($result[1] == 0){
 			$this->_data['error'] = 'Tài khoản hoặc mật khẩu không đúng !';
@@ -43,7 +46,9 @@ class Admin extends CI_Controller{
 			$this->session->set_userdata($session);
 			$this->_user_account = $result[0]['user_name'];
 			$this->_user_image = $result[0]['user_image'];
-			$this->dashboard();
+			// $this->dashboard();
+			redirect(base_url().'admin/dashboard');
+			
 		}
 	}
 	public function dashboard(){

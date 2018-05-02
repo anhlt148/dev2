@@ -1,6 +1,25 @@
+var base_url;
 $(Document).ready(function () {
-
+    base_url = $(".base_url").val();
 });
+
+function call_ajax(type, url, data, successcallback, failcallback) {
+    $.ajax({
+        type: type,
+        url: url,
+        cache: false,
+        data: data,
+        dataType: 'json',
+        // contentType: "application/json; charset=utf-8",
+        success: function (data, textStatus, jqXHR) {
+            successcallback(data, textStatus, jqXHR);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            failcallback(jqXHR, textStatus, errorThrown);
+        }
+    });
+}
+
 // hàm hiển thị thông báo:
 function tempAlert(msg, duration) {
     var el = document.createElement("div");
@@ -39,9 +58,6 @@ function show_notify(msg, type) {
 var page_header = "";
 function create() {
     check_role(function(){
-        // val = $(el).attr("data-val");
-        // $(el).attr('onclick', val);
-        // $(el).click();
         $("#grid_list").hide();
         $("#create_new").show();
         page_header = $("h2.page-header").html();
@@ -67,28 +83,21 @@ function back_to_list() {
     $("#create_new").hide();
 }
 // hàm kiem tra khi xoa thành vien:
-function doconfirm() {
+function doconfirm(el, callback) {
     var role = $(".user_role").val();
-    if (role != "owner") {
+    if (role != "owner" && role != "admin") {
         tempAlert('Bạn không có quyền.', 3000)
         return false
     }
     else {
-        job = confirm("Bạn có chắc chắn muốn xóa không?");
-        if (job) {
-            $(el).attr('onclick', $(el).attr('href'));
-            $(el).click();
-        }
-        else {
-            return job;
-        }
+        callback();
     }
 }
 // hàm kiem tra tài khoản khi sửa:
 function doconfirm2(el) {
-    var value = $(el).attr('data-value');
-    if (value == 1) {
-        tempAlert('Không được phép sửa!', 3000);
+    var role = $(".user_role").val();
+    if (role != "owner" && role != "admin") {
+        tempAlert('Bạn không có quyền.', 3000)
         return false;
     }
     else {

@@ -261,34 +261,30 @@ function ajx_dataTable($table='',$columns=array(),$Join_condition='', $where = '
 	$CI->load->database();
 	$CI->load->library('Ssp');
 
-		if(empty($columns))
-		{
-			$columns = array(
-				array( 'db' => 'name', 'dt' => 0 ),	
-				array( 'db' => $table.'_id',  'dt' => 1 )
-				);
-		}
-		$sql_details = array(
-			'user' => $CI->db->username,
-			'pass' => $CI->db->password,
-			'db'   => $CI->db->database,
-			'host' => $CI->db->hostname
-		);
-
-
-
+	if(empty($columns))
+	{
+		$columns = array(
+			array( 'db' => 'name', 'dt' => 0 ),	
+			array( 'db' => $table.'_id',  'dt' => 1 )
+			);
+	}
+	$sql_details = array(
+		'user' => $CI->db->username,
+		'pass' => $CI->db->password,
+		'db'   => $CI->db->database,
+		'host' => $CI->db->hostname
+	);
 	$output_arr = SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $Join_condition, $where);
 
 	foreach ($output_arr['data'] as $key => $value) 
 	{
-			$id = $output_arr['data'][$key][count($output_arr['data'][$key])  - 1];
-			$output_arr['data'][$key][count($output_arr['data'][$key])  - 1] = '';
-			if(CheckPermission($table, "own_update")){
+		$id = $output_arr['data'][$key][count($output_arr['data'][$key])  - 1];
+		$output_arr['data'][$key][count($output_arr['data'][$key])  - 1] = '';
+		if(CheckPermission($table, "own_update")){
 			$output_arr['data'][$key][count($output_arr['data'][$key])  - 1] .= '<a sty id="btnEditRow" class="modalButton mClass"  href="javascript:;" type="button" data-src="'.$id.'" title="Edit"><i class="fa fa-pencil" data-id=""></i></a>';
-			}
-			if(CheckPermission($table, "own_delete")){
+		}
+		if(CheckPermission($table, "own_delete")){
 			$output_arr['data'][$key][count($output_arr['data'][$key])  - 1] .= '<a data-toggle="modal" class="mClass" style="cursor:pointer;"  data-target="#cnfrm_delete" title="delete" onclick="setId('.$id.')"><i class="fa fa-trash-o" ></i></a>';}
-
 
 		$result = getTemplatesByModule($CI->uri->segment(1));
 		if(is_array($result) && !empty($result)) {
@@ -310,27 +306,4 @@ function getTemplatesByModule($module){
 	$qr = $CI->db->get();
 	return $qr->result();
 }
-
-/*	  function geneeratePdf($module, $mid, $tid) {
-	  	$CI = get_instance();
-	  	$template_row = getDataByid('templates',$tid,'id');
-	  	$module_row = getDataByid($module,$mid,'id');
-	  	$CI->load->library('Mypdf');
-	  	$html = $template_row->html;
-	  	//print_r($module_row);
-	  	foreach ($module_row as $key => $value) {
-	  		$html = str_replace('{var_'.$key.'}', $value, $html);		
-	  	}
-
-		  $CI->dompdf->load_html($html);
-		  $CI->dompdf->set_paper("A4", "portrait");
-		  $CI->dompdf->render();
-		  $filename = "mkaTestd.pdf";
-		  $path = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__)))))).'/assets/images/pdf/';
-		  if(file_exists($path.$filename)) {
-			  unlink($path.$filename);
-		  }
-		  file_put_contents($path.$filename, $CI->dompdf->output());
-		  return  $path.$filename;
-	  }*/
 ?>

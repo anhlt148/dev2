@@ -15,7 +15,7 @@
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url().'css/backend/template/metisMenu.min.css'?>" rel="stylesheet">
     <!-- Timeline CSS -->
-    <link href="<?php echo base_url().'cssbackend/template/timeline.css'?>" rel="stylesheet">
+    <link href="<?php echo base_url().'css/backend/template/timeline.css'?>" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?php echo base_url().'css/backend/template/startmin.css'?>" rel="stylesheet">
     <!-- Morris Charts CSS -->
@@ -95,7 +95,8 @@
 
 <!-- js global -->
 <script src="<?php echo base_url().'js/global.js'?>"></script>
-
+<!-- js page -->
+<script src="<?php echo base_url().'js/backend/'.$js_load?>"></script>
 <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
@@ -105,6 +106,7 @@
 </script>
 
 <input class="user_role" type="hidden" name="user_role" value="<?php echo (isset($role)?$role:'')?>">
+<input id="base_url" type="hidden" value="<?php echo base_url();?>">
 
 </body>
 </html>
