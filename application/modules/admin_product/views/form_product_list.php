@@ -33,7 +33,7 @@ function doconfirm(el) {
     }
 }
 // hàm kiem tra tài khoản khi sửa:
-function doconfirm2(el){
+function confirm_edit(el){
     var value = $(el).attr('data-value');
     if (value == 1){
         tempAlert('Không được phép sửa !');
@@ -134,8 +134,8 @@ function getParamerter(){
                                 
                                 <td>
                                     <div class="hidden-sm hidden-xs btn-group">
-                                        <button class="btn btn-xs btn-info" title="Thay đổi trạng thái" onclick="return doconfirm2(this);" data-value="<?php echo $value['prd_id'];?>" href="location.href='<?php echo base_url().'admin_product/admin_product_change_status/'.$value['prd_id'].'/'.$value['prd_status'];?>'"> <i class="ace-icon fa <?php if($prd_status['color'] == 'label-success'){echo 'fa-unlock';}else{echo 'fa-lock';} ?> bigger-120"></i> </button>
-                                        <button class="btn btn-xs btn-warning" title="Chỉnh sửa" onclick="return doconfirm2(this);" data-value="<?php echo $value['prd_id'];?>" href="location.href='<?php echo base_url().'admin_product/admin_product_edit/'.$value['prd_id'];?>'"> <i class="ace-icon fa fa-pencil bigger-120"></i> </button>
+                                        <button class="btn btn-xs btn-info" title="Thay đổi trạng thái" onclick="return confirm_edit(this);" data-value="<?php echo $value['prd_id'];?>" href="location.href='<?php echo base_url().'admin_product/admin_product_change_status/'.$value['prd_id'].'/'.$value['prd_status'];?>'"> <i class="ace-icon fa <?php if($prd_status['color'] == 'label-success'){echo 'fa-unlock';}else{echo 'fa-lock';} ?> bigger-120"></i> </button>
+                                        <button class="btn btn-xs btn-warning" title="Chỉnh sửa" onclick="return confirm_edit(this);" data-value="<?php echo $value['prd_id'];?>" href="location.href='<?php echo base_url().'admin_product/admin_product_edit/'.$value['prd_id'];?>'"> <i class="ace-icon fa fa-pencil bigger-120"></i> </button>
                                         <button class="btn btn-xs btn-danger" title="Xóa" onclick="return doconfirm(this);" data-value="<?php echo $value['prd_id'];?>" href="location.href='<?php echo base_url().'admin_product/admin_product_delete/'.$value['prd_id'];?>'"> <i class="ace-icon fa fa-trash-o bigger-120"></i> </button>
                                     </div>
 

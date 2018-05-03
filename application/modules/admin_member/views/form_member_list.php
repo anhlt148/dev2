@@ -33,7 +33,7 @@ function doconfirm(el) {
 	}
 }
 // hàm kiem tra tài khoản khi sửa:
-function doconfirm2(el){
+function confirm_edit(el){
 	var value = $(el).attr('data-value');
 	if (value == 1){
 		tempAlert('Không được phép sửa !');
@@ -123,8 +123,8 @@ function getParamerter(){
 								<td class="hidden-480"> <span class="label label-sm <?php echo $status['color'] ?>"><?php echo $status['status'] ?></span> </td>
 								<td>
 									<div class="hidden-sm hidden-xs btn-group">
-										<button class="btn btn-xs btn-info" title="Thay đổi trạng thái" onclick="return doconfirm2(this);" data-value="<?php echo $value['id'];?>" href="location.href='<?php echo base_url().'admin_member/admin_member_change_status/'.$value['id'].'/'.$value['status'];?>'"> <i class="ace-icon fa <?php if($status['color'] == 'label-success'){echo 'fa-unlock';}else{echo 'fa-lock';} ?> bigger-120"></i> </button>
-										<button class="btn btn-xs btn-warning" title="Chỉnh sửa" onclick="return doconfirm2(this);" data-value="<?php echo $value['id'];?>" href="location.href='<?php echo base_url().'admin_member/admin_member_edit/'.$value['id'];?>'"> <i class="ace-icon fa fa-pencil bigger-120"></i> </button>
+										<button class="btn btn-xs btn-info" title="Thay đổi trạng thái" onclick="return confirm_edit(this);" data-value="<?php echo $value['id'];?>" href="location.href='<?php echo base_url().'admin_member/admin_member_change_status/'.$value['id'].'/'.$value['status'];?>'"> <i class="ace-icon fa <?php if($status['color'] == 'label-success'){echo 'fa-unlock';}else{echo 'fa-lock';} ?> bigger-120"></i> </button>
+										<button class="btn btn-xs btn-warning" title="Chỉnh sửa" onclick="return confirm_edit(this);" data-value="<?php echo $value['id'];?>" href="location.href='<?php echo base_url().'admin_member/admin_member_edit/'.$value['id'];?>'"> <i class="ace-icon fa fa-pencil bigger-120"></i> </button>
 										<button class="btn btn-xs btn-danger" title="Xóa" onclick="return doconfirm(this);" data-value="<?php echo $value['id'];?>" href="location.href='<?php echo base_url().'admin_member/admin_member_delete/'.$value['id'];?>'"> <i class="ace-icon fa fa-trash-o bigger-120"></i> </button>
 									</div>
 

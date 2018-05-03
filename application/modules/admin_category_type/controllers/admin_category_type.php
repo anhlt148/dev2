@@ -21,97 +21,47 @@ class Admin_category_type extends CI_Controller{
 		is_login();
 		if (isset($_POST['data'])) {
 			$arr = $_POST['data'];
-			$rs = $this->mod_category_type->insert($arr);
-			if($rs == false){
+			$row = $this->mod_category_type->insert($arr);
+			if($row == false){
 				$objReturn = array('result' => false, 'message' => "Loại danh mục đã tồn tại");
 			}
 			else{
-				$objReturn = array('result' => $rs, 'message' => "");
+				$objReturn = array('result' => $row, 'message' => "");
 			}
 			echo json_encode($objReturn); 
 		}
 		else {
-			echo json_encode(array('result' => false, 'message' => "Dữ liệu sai"));
-		}
-	}
-	// insert:
-	public function admin_category_insert(){		
-		$user_role = $this->_role['user_role'];
-		if($user_role == 'owner' || $user_role == 'admin'){
-			$this->_data['content'] = 'form_category_add';
-			$this->_data['title_page'] = 'Thêm mới danh mục';
-			$this->_data['error'] = '';			
-			$name = $this->input->post('cate_name');
-			$status = $this->input->post('cate_status');
-
-			$valid = $this->mod_category->mod_category_check($name);
-
-			if($valid > 0){
-				$this->_data['valid'] = '(Tên danh mục đã tồn tại!)';
-				$this->load->view('template_backend', $this->_data);
-			}
-			else{		
-				$dataArr = array(
-					'cate_name' => $name,
-					'cate_status' => $status,
-				);
-				$statusInsert = $this->mod_category->mod_category_insert($dataArr);
-				if($statusInsert != ''){
-					redirect(base_url().'admin_category_type/admin_category_list?status=add');
-				}
-				else{
-					$this->_data['error'] = 'Thêm mới thất bại';
-					$this->load->view('template_backend', $this->_data);
-				}
-			}
-		}	
-		else{
-			redirect(base_url().'admin_category_type/admin_category_list?status=notAllow');
+			$objReturn = array('result' => false, 'message' => $_POST['data']);
+			echo json_encode($objReturn);
 		}
 	}
 	// Edit:
 	public function edit(){		
-		if($this->_role['user_role'] == 'owner' || $this->_role['user_role'] == 'admin'){
-			$id = $this->uri->segment(3);
-			$this->_data['id'] = $id;
-			$this->_data['content'] = 'form_category_edit';
-			$this->_data['title_page'] = 'Sửa danh mục';
-			$this->_data['error'] = '';	
-			$this->_data['data'] = $this->mod_category_type->mod_category_get($id);
-			$this->load->view('template_backend', $this->_data);
+		$id = $this->uri->segment(3);
+		if($id == null || $id == ""){
+			echo json_encode(array('result' => false, 'message' => "Dữ liệu sai"));
 		}
-		else{			
-			redirect(base_url().'admin_category_type/admin_category_list?status=notAllow');
+		else{
+			$row = $this->mod_category_type->getItem($id);
+			echo json_encode(array('result' => $row, 'message' => ""));
 		}
 	}
 	// Update:
-	public function admin_category_update(){
-		$user_role = $this->_role['user_role'];	
-		if($user_role == 'owner' || $user_role == 'admin'){
-			$id = $this->uri->segment(3);
-			$this->_data['content'] = 'admin_category_edit';
-			$this->_data['error'] = '';	
-
-			$name = $this->input->post('cate_name');
-			$status = $this->input->post('cate_status');
-
-
-			$valid = $this->mod_category->mod_category_check2($name, $id);
-			if($valid > 0){
-				$this->_data['valid'] = 'Danh mục đã tồn tại!';
-				$this->load->view('template_backend', $this->_data);
+	public function update(){
+		is_login();
+		$id = $_GET["id"];
+		if (isset($_POST['data'])) {
+			$arr = $_POST['data'];
+			$row = $this->mod_category_type->update_one($id, $arr);
+			if($row == false){
+				echo json_encode(array('result' => false, 'message' => "Loại danh mục đã tồn tại")); 
 			}
 			else{
-				$dataArr = array(
-					'cate_name' => $name,
-					'cate_status' => $status,
-				);
-				$this->mod_category->mod_category_update($dataArr, $id);	
-				redirect(base_url().'admin_category/admin_category_list?status=edit');
+				echo json_encode(array('result' => $row, 'message' => "")); 
 			}
 		}
-		else{
-			redirect(base_url().'admin_category/admin_category_list?status=notAllow');
+		else {
+			echo json_encode(array('result' => false, 'message' => "Dữ liệu sai"));
 		}
 	}
 	// Delete:
@@ -121,6 +71,25 @@ class Admin_category_type extends CI_Controller{
 		$rs = array('result' => true, 'message' => "");
 		echo json_encode ($rs) ; 
 	}
+	// Delete multi:
+	public function delete_multi(){
+		is_login();
+		if (isset($_POST['data'])) {
+			$arr = explode(",",$_POST['data']);
+			$row = $this->mod_category_type->del_multi($arr);
+			if($row == true){
+				echo json_encode(array('result' => true, 'message' => "")); 
+			}
+			else{
+				echo json_encode(array('result' => false, 'message' => "Xóa không thành công.")); 
+			}
+		}
+		else {
+			echo json_encode(array('result' => false, 'message' => "Dữ liệu sai"));
+		}
+		
+	}
+		
 	// change status:
 	public function change_status() {
 		is_login();

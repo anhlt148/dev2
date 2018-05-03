@@ -32,7 +32,7 @@ function doconfirm(el) {
 	}
 }
 // hàm kiem tra tài khoản khi sửa:
-function doconfirm2(el){
+function confirm_edit(el){
 	var value = $(el).attr('data-value');
 	if (value == 1){
 		tempAlert('Không được phép sửa!', 3000);

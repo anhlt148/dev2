@@ -24,6 +24,23 @@ class Mod_category_type extends CI_Model{
 			return $arr;
 		}
 	}
+	
+	// kiểm tra danh muc cần thêm mới có trong csdl không:
+	function update_one($id, $arr){
+		$this->db->where('type_code', $arr['type_code']);
+		$this->db->where_not_in('type_id', $id);
+		$row = $this->db->count_all_results('category_type');
+		if($row > 0){
+			return false;
+		}
+		else{
+			$this->db->where('type_id', $id);
+			$this->db->update('category_type', $arr);
+			$arr["type_id"] = $id;
+			return $arr;
+		}
+	}
+
 	// thêm mới:
 	function mod_category_insert($data){
 		$this->db->insert('category_type',$data);
@@ -31,12 +48,13 @@ class Mod_category_type extends CI_Model{
 		return $insert_id;
 	}
 	// lấy thông tin 1 item:
-	function mod_category_get($id){
+	function getItem($id){
 		$this->db->where('type_id', $id);	
 		$query = $this->db->get('category_type');
-		$data = $query->row_array();
-		return $data;
+		$row = $query->first_row();
+		return $row;
 	}
+
 	// ham kiem tra danh mục trùng khi sưa:
 	function mod_category_check2($value, $id){		
 		$this->db->where('type_name',$value);
@@ -54,6 +72,17 @@ class Mod_category_type extends CI_Model{
 	function delete($id){
 		$this->db->where('type_id', $id);
 		$this->db->delete('category_type');
+	}
+	// xóa:
+	function del_multi($arr){
+		if (!empty($arr)) {
+			$this->db->where_in('type_id', $arr);
+			$this->db->delete('category_type');
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
 ?>

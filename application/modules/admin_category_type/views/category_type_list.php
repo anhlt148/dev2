@@ -5,6 +5,7 @@
 		<div id="grid_list" class="panel panel-default">
 			<div class="panel-heading">
 				<button type="button" class="btn btn-success" onclick="create(this)" data-val="location.href='<?php echo base_url().'admin_category_type/add'?>'">Thêm mới</button>
+				<button type="button" class="btn btn-danger" onclick="delete_multi(this)" data-val="<?php echo base_url().'admin_category_type/delete_multi'?>">Xóa nhiều</button>
 			</div>
 			<!-- /.panel-heading -->
 			<div class="panel-body">
@@ -13,6 +14,7 @@
 						<thead>
 							<tr>
 								<th>#</th>
+								<th><input class="check_all" type="checkbox" onchange="check_all(this);"></th>
 								<th>Mã loại</th>
 								<th>Tên loại</th>
 								<th>Trạng thái</th>
@@ -24,8 +26,9 @@
 							if(count($data) > 0){
 								foreach ($data as $key => $value) {
 								?>
-									<tr>
+									<tr data-id="<?php echo $value['type_id']?>">
 										<td><?php echo ($key+1) ?></td>
+										<td><input class="check_item" type="checkbox" data-id="<?php echo $value['type_id']?>" onclick="checkOne(this)"></td>
 										<td><?php echo $value['type_code'] ?></td>
 										<td><?php echo $value['type_name'] ?></td>
 										<td>
@@ -44,7 +47,7 @@
 										</td>
 										<td>
 											<button type="button" class="btn btn-info" title="Xem" style="padding:1px 6px;"><i class="fa fa-info-circle"></i></button>
-											<button type="button" class="btn btn-warning" title="Sửa" onclick="doconfirm2(this);" style="padding:1px 6px;" href="<?php echo base_url().'admin_category_type/edit/'.$value['type_id'];?>"><i class="fa fa-pencil-square-o"></i></button>
+											<button type="button" class="btn btn-warning" title="Sửa" onclick="confirm_edit(this);" style="padding:1px 6px;" href="<?php echo base_url().'admin_category_type/edit/'.$value['type_id'];?>"><i class="fa fa-pencil-square-o"></i></button>
 											<button type="button" class="btn btn-danger" title="Xóa" onclick="on_delete_record(this);" href="<?php echo base_url().'admin_category_type/delete/'.$value['type_id'];?>" style="padding:1px 6px;"><i class="fa fa-trash-o"></i></button>
 										</td>
 									</tr>
@@ -107,7 +110,8 @@
                     
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_category_type/add'?>">Lưu</button>
+                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_category_type/add'?>" id="save">Lưu</button>
+                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_category_type/update'?>" id="update" style="display: none;">Cập nhật</button>
                             <button type="reset" class="btn btn-danger">Hủy</button>
                             <button type="button" onclick="back_to_list()" class="btn btn-warning">Danh sách</button>
                         </div>

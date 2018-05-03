@@ -10,7 +10,7 @@ function call_ajax(type, url, data, successcallback, failcallback) {
         cache: false,
         data: data,
         dataType: 'json',
-        // contentType: "application/json; charset=utf-8",
+        // contentType: "application/json",
         success: function (data, textStatus, jqXHR) {
             successcallback(data, textStatus, jqXHR);
         },
@@ -62,6 +62,10 @@ function create() {
         $("#create_new").show();
         page_header = $("h2.page-header").html();
         $("h2.page-header").html("Thêm mới");
+
+        $("#save").show();
+        $("#update").hide();
+        currentRecord = null;
     });
 }
 function check_role(callback) {
@@ -81,6 +85,7 @@ function back_to_list() {
     $("h2.page-header").html(page_header);
     $("#grid_list").show();
     $("#create_new").hide();
+    currentRecord = null;
 }
 // hàm kiem tra khi xoa thành vien:
 function doconfirm(el, callback) {
@@ -94,15 +99,14 @@ function doconfirm(el, callback) {
     }
 }
 // hàm kiem tra tài khoản khi sửa:
-function doconfirm2(el) {
+function confirm_edit(el) {
     var role = $(".user_role").val();
     if (role != "owner" && role != "admin") {
         tempAlert('Bạn không có quyền.', 3000)
         return false;
     }
     else {
-        $(el).attr('onclick', $(el).attr('href'));
-        $(el).click();
+        on_edit(el);
     }
 }
 // hàm kiem tra tham so tren thanh dia chỉ:
@@ -113,5 +117,25 @@ function getParamerter() {
         case 'edit': tempAlert('Cập nhật thành công!', 3000); break;
         case 'delete': tempAlert('Xóa thành công!', 3000); break;
         case 'notAllow': tempAlert('Bạn không có quyền!', 3000); break;
+    }
+}
+// chọn nhiều:
+var _arrID = [];
+function check_all() {
+    $('.check_item').prop('checked', $('.check_all').prop('checked'));
+    $('.check_item').each(function (index) {
+        checkOne($(this));
+    });
+}
+// chọn một:
+function checkOne(e) {
+    var _id = $(e).attr("data-id");
+    if ($(e).prop("checked") == true) {
+        if (_arrID.indexOf(_id) < 0) {
+            _arrID.push(_id)
+        }
+    }
+    else {
+        _arrID.splice(_arrID.indexOf(_id), 1);
     }
 }
