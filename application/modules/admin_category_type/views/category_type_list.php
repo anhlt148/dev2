@@ -46,7 +46,7 @@
 											?>
 										</td>
 										<td>
-											<button type="button" class="btn btn-info" title="Xem" style="padding:1px 6px;"><i class="fa fa-info-circle"></i></button>
+											<!-- <button type="button" class="btn btn-info" title="Xem" style="padding:1px 6px;"><i class="fa fa-info-circle"></i></button> -->
 											<button type="button" class="btn btn-warning" title="Sửa" onclick="confirm_edit(this);" style="padding:1px 6px;" href="<?php echo base_url().'admin_category_type/edit/'.$value['type_id'];?>"><i class="fa fa-pencil-square-o"></i></button>
 											<button type="button" class="btn btn-danger" title="Xóa" onclick="on_delete_record(this);" href="<?php echo base_url().'admin_category_type/delete/'.$value['type_id'];?>" style="padding:1px 6px;"><i class="fa fa-trash-o"></i></button>
 										</td>
@@ -74,7 +74,7 @@
                             <label for="">Mã loại danh mục</label>
                         </div>
                         <div class="col-lg-9">
-                            <input class="form-control" id="code_cate" type="text" placeholder="Bắt buộc...">
+                            <input onkeyup="format_code(this)" class="form-control" id="code_cate" type="text" placeholder="Bắt buộc...">
                         </div>
                     </div>
                     <div style="clear: both;"></div>

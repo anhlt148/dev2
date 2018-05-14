@@ -13,3 +13,10 @@ div.panel-heading{
     line-height: 37px !important;
     padding: 5px 0 !important;
 }
+#grid_list tbody td button.btn.btn-warning{
+    margin-right: 3px !important;
+}
+.img_user{
+    height: 30px;
+    border: 1px solid #c1c1c1;
+}

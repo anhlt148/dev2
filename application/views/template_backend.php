@@ -69,7 +69,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="page-header"><?php echo (isset($title)?$title:"");?></h2>
+                    <h3 class="page-header"><?php echo (isset($title)?$title:"");?></h3>
                 </div>
             </div>
 
@@ -100,7 +100,7 @@
 <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
-                responsive: true
+            responsive: true
         });
     });
 </script>

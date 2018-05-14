@@ -16,9 +16,37 @@
             <li>
                 <a href="<?php echo base_url().'admin/dashboard'?>" class="<?php (isset($dashboard)?"active":"")?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            <!-- category type -->
+            <!-- Loại danh mục -->
             <li>
-                <a href="<?php echo base_url().'admin_category_type/grid'?>" class="<?php (isset($category_type)?"active":"")?>"><i class="fa fa-bars fa-fw"></i> Loại danh mục</a>
+                <a href="<?php echo base_url().'admin_category_type/grid'?>" class="<?php (isset($category_type)?"active":"")?>"><i class="fa fa-bars fa-fw"></i> Quản lý loại danh mục</a>
+            </li>
+            <!-- Danh mục -->
+            <li>
+                <a href="<?php echo base_url().'admin_category/grid'?>" class="<?php (isset($category)?"active":"")?>"><i class="fa fa-list fa-fw"></i> Quản lý danh mục</a>
+            </li>
+            <!-- user -->
+            <li>
+                <a href="<?php echo base_url().'admin_users'?>" class="<?php (isset($users)?"active":"")?>"><i class="fa fa-user fa-fw"></i> Quản lý tài khoản</a>
+            </li>
+            <!-- member -->
+            <li>
+                <a href="<?php echo base_url().'admin_members'?>" class="<?php (isset($members)?"active":"")?>"><i class="fa fa-users fa-fw"></i> Quản lý thành viên</a>
+            </li>
+            <!-- khách hàng -->
+            <li>
+                <a href="<?php echo base_url().'admin_customers'?>" class="<?php (isset($customers)?"active":"")?>"><i class="fa fa-address-book-o fa-fw"></i> Quản lý khách hàng</a>
+            </li>
+            <!-- sản phẩm -->
+            <li>
+                <a href="<?php echo base_url().'admin_products'?>" class="<?php (isset($products)?"active":"")?>"><i class="fa fa-product-hunt fa-fw"></i> Quản lý sản phẩm</a>
+            </li>
+            <!-- đơn hàng -->
+            <li>
+                <a href="<?php echo base_url().'admin_orders'?>" class="<?php (isset($orders)?"active":"")?>"><i class="fa fa-sticky-note fa-fw"></i> Quản lý đơn hàng</a>
+            </li>
+            <!-- hình ảnh -->
+            <li>
+                <a href="<?php echo base_url().'admin_images'?>" class="<?php (isset($images)?"active":"")?>"><i class="fa fa-picture-o fa-fw"></i> Quản lý hình ảnh</a>
             </li>
             <!-- Charts -->
             <li>

@@ -1,6 +1,10 @@
 var base_url;
-$(Document).ready(function () {
-    base_url = $(".base_url").val();
+var obj_role = {
+    "owner": "Chủ sở hữu",
+    "admin": "Quản trị viên"
+};
+$(document).ready(function () {
+    base_url = $("#base_url").val();
 });
 
 function call_ajax(type, url, data, successcallback, failcallback) {
@@ -62,7 +66,6 @@ function create() {
         $("#create_new").show();
         page_header = $("h2.page-header").html();
         $("h2.page-header").html("Thêm mới");
-
         $("#save").show();
         $("#update").hide();
         currentRecord = null;
@@ -138,4 +141,12 @@ function checkOne(e) {
     else {
         _arrID.splice(_arrID.indexOf(_id), 1);
     }
+}
+function format_code(el) {
+    var value = $(el).val().replace(/[^0-9a-z_A-Z]/g, '');
+    $(el).val(value);
+}
+function on_FormatMoney(e) {
+    var num = $(e).val().replace(/[^0-9.%]/g, '');
+    $(e).val(num.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 }

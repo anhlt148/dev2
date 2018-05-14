@@ -10,7 +10,7 @@ class Admin_category_type extends CI_Controller{
 	// danh sách:
 	public function grid(){		
 		is_login();
-		$this->_data['data'] = $this->mod_category_type->get_list();
+		$this->_data['data'] = $this->mod_category_type->get_list(null);
 		$this->_data['content'] = 'category_type_list';
 		$this->_data['title_page'] = 'Loại danh mục';
 		$this->_data['title'] = 'Loại danh mục';
@@ -23,17 +23,16 @@ class Admin_category_type extends CI_Controller{
 			$arr = $_POST['data'];
 			$row = $this->mod_category_type->insert($arr);
 			if($row == false){
-				$objReturn = array('result' => false, 'message' => "Loại danh mục đã tồn tại");
+				$objReturn = array('result' => false, 'message' => "Loại danh mục đã tồn tại.");
 			}
 			else{
 				$objReturn = array('result' => $row, 'message' => "");
 			}
-			echo json_encode($objReturn); 
 		}
 		else {
-			$objReturn = array('result' => false, 'message' => $_POST['data']);
-			echo json_encode($objReturn);
+			$objReturn = array('result' => false, 'message' => "Dữ liệu sai.");
 		}
+		echo json_encode($objReturn);
 	}
 	// Edit:
 	public function edit(){		
