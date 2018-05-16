@@ -1,3 +1,31 @@
+<!-- crop js -->
+<script src="<?php echo base_url().'js/crop/crop.js'?>"></script>
+<link href="<?php echo base_url().'js/crop/crop.css'?>" rel="stylesheet">
+<link href="<?php echo base_url().'css/bootstrap.css'?>" rel="stylesheet">
+<!-- end crop.-->
+
+<!-- upload ảnh dai dien.-->
+<div id="upload-modal" style="z-index: 10002; width: 500px; height: 350px; display: none;" class="modal">
+    <div class="modal-header page-top">
+    <button onclick="onCancel_PopupUploadAnh()" class="close">x</button>
+    <h3 style="margin: 0; font-size: 14px; font-weight: bold;">Upload ảnh đại điện</h3>
+    </div>
+    <div class="modal-body">
+    <div style="width: auto !important; display: block;" class="avatarcontainer">
+        <div style="width: 470px; height: 260px; background-size: 319.346px 318.779px; background-repeat: no-repeat; background-position: 147px -7px;" class="imageBox">
+        <div class="thumbBox"></div>
+        <div style="display: none;" class="spinner">Đang đọc </div>
+        </div>
+        <div style="width:470px; padding:0 15px" class="action">
+        <input id="file" type="file" style="float:left; width: 300px">
+        <input id="btnCrop" type="button" style="float:right;" value="Cắt">
+        <input id="btnZoomIn" type="button" style="float:right;" value="+">
+        <input id="btnZoomOut" type="button" style="float:right;" value="-">
+        </div>
+    </div>
+    </div>
+</div>
+
 <div class="row">
 	<!-- /.col-lg-12 -->
 	<div class="col-lg-12">
@@ -109,10 +137,17 @@
                             <label for="">Hình ảnh</label>
                         </div>
                         <div class="col-lg-9">
-                            <select id="user_role" class="form-control">
+                            <!-- <select id="user_role" class="form-control">
                                 <option value="owner">Chủ sở hữu</option>
                                 <option value="admin">Quản trị</option>
-                            </select>
+                            </select> -->
+                            <div class="cropped" style="padding-right:0px;padding-top:10px"><img src="<?php echo base_url().'images/male.png'?>"></div>
+                            <div class="editable" style="width:auto !important;display:inline-block;">
+                                <a onclick="on_openUploadAnh();" style="cursor:pointer">
+                                    <span style="color:black;font-weight:bold;font-size:12px;">Tải ảnh lên </span>
+                                    <i class="fa fa-upload"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div style="clear: both;"></div>

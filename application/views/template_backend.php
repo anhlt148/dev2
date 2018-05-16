@@ -35,7 +35,7 @@
     <![endif]-->
 </head>
 <body>
-
+<div id="overlay" style="z-index: 10001; display: none;"></div>
 <div id="wrapper">
 
     <!-- Navigation -->

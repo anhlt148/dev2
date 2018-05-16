@@ -20,3 +20,22 @@ div.panel-heading{
     height: 30px;
     border: 1px solid #c1c1c1;
 }
+/* crop */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    zoom:1;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+    background: rgba(0,0,0,0.75);
+    transition: opacity 300ms;
+    z-index: 500;
+}
+
+#overlay.hide {
+    pointer-events: none;
+    opacity: 0
+}

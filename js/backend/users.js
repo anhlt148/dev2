@@ -212,5 +212,15 @@ function reload_list(){
         alert(errorThrown);
     });
 }
-
-
+// phần upload ảnh:
+function on_openUploadAnh() {
+    // $('.fulcrum-modal-editor').css('display', 'none');
+    $('#upload-modal').css('display', 'block');
+    $('#overlay').css('display', 'block');
+    $('#upload-modal .imageBox').css('background-image', '#fff'); // set lai khi chon anh dai dien.
+} 
+function onCancel_PopupUploadAnh() {
+    // $('.fulcrum-modal-editor').css('display', 'block');
+    $('#upload-modal').hide();
+    $('#overlay').css('display', 'none');
+}
