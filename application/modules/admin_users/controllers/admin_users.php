@@ -112,5 +112,27 @@ class Admin_users extends CI_Controller{
 		$this->mod_users->update($dataArr, $id);	
 		redirect(base_url().'admin_users');
 	}
+	// upload Avatar:
+	public function uploadAvatar() {
+		is_login();	
+		if (isset($_POST['data'])) {
+			$image = $_POST['data']["image"];
+			echo $image;
+			
+			// $row = $this->mod_users->uploadAvatar($image);
+			// if($row == false){
+			// 	$objReturn = array('result' => false, 'message' => "");
+			// }
+			// else{
+			// 	$objReturn = array('result' => $row, 'message' => "");
+			// }
+
+			
+		}
+		else {
+			$objReturn = array('result' => false, 'message' => "Dữ liệu sai.");
+		}
+		echo json_encode($objReturn);
+	}
 }
 ?>

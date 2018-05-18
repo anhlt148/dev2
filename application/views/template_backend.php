@@ -33,6 +33,31 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- jQuery -->
+    <script src="<?php echo base_url().'js/template/jquery.min.js'?>"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo base_url().'js/template/bootstrap.min.js'?>"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="<?php echo base_url().'js/template/metisMenu.min.js'?>"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="<?php echo base_url().'js/template/startmin.js'?>"></script>
+    <!-- DataTables JavaScript -->
+    <script src="<?php echo base_url().'js/template/dataTables/jquery.dataTables.min.js'?>"></script>
+    <script src="<?php echo base_url().'js/template/dataTables/dataTables.bootstrap.min.js'?>"></script>
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+
+    <!-- js global -->
+    <script src="<?php echo base_url().'js/global.js'?>"></script>
+    <!-- js page -->
+    <script src="<?php echo base_url().'js/backend/'.$js_load?>"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
 </head>
 <body>
 <div id="overlay" style="z-index: 10001; display: none;"></div>
@@ -79,31 +104,6 @@
     </div>
 
 </div>
-
-<!-- jQuery -->
-<script src="<?php echo base_url().'js/template/jquery.min.js'?>"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="<?php echo base_url().'js/template/bootstrap.min.js'?>"></script>
-<!-- Metis Menu Plugin JavaScript -->
-<script src="<?php echo base_url().'js/template/metisMenu.min.js'?>"></script>
-<!-- Custom Theme JavaScript -->
-<script src="<?php echo base_url().'js/template/startmin.js'?>"></script>
-<!-- DataTables JavaScript -->
-<script src="<?php echo base_url().'js/template/dataTables/jquery.dataTables.min.js'?>"></script>
-<script src="<?php echo base_url().'js/template/dataTables/dataTables.bootstrap.min.js'?>"></script>
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-
-<!-- js global -->
-<script src="<?php echo base_url().'js/global.js'?>"></script>
-<!-- js page -->
-<script src="<?php echo base_url().'js/backend/'.$js_load?>"></script>
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
 
 <input class="user_role" type="hidden" name="user_role" value="<?php echo (isset($role)?$role:'')?>">
 <input id="base_url" type="hidden" value="<?php echo base_url();?>">

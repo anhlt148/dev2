@@ -1,7 +1,11 @@
 <!-- crop js -->
-<script src="<?php echo base_url().'js/crop/crop.js'?>"></script>
-<link href="<?php echo base_url().'js/crop/crop.css'?>" rel="stylesheet">
+<script src="<?php echo base_url().'js/lib/crop/crop.js'?>"></script>
+<link href="<?php echo base_url().'js/lib/crop/crop.css'?>" rel="stylesheet">
 <link href="<?php echo base_url().'css/bootstrap.css'?>" rel="stylesheet">
+
+<link href="<?php echo base_url().'js/lib/uploadFile/styles.css'?>" rel="stylesheet">
+<script src="<?php echo base_url().'js/lib/uploadFile/filedrop.js'?>"></script>
+<script src="<?php echo base_url().'js/lib/uploadFile/script.js'?>"></script>
 <!-- end crop.-->
 
 <!-- upload ảnh dai dien.-->
@@ -32,9 +36,9 @@
 		<!-- Lưới danh sách -->
 		<div id="grid_list" class="panel panel-default">
 			<div class="panel-heading">
-				<button type="button" class="btn btn-success" onclick="create(this)" data-val="location.href='<?php echo base_url().'admin_category/add'?>'">Thêm mới</button>
+				<button type="button" class="btn btn-success" onclick="create(this)" data-val="location.href='<?php echo base_url().'admin_users/add'?>'">Thêm mới</button>
 				<button type="button" class="btn btn-info" onclick="reload_list()">Tải lại</button>
-				<button type="button" class="btn btn-danger" onclick="delete_multi(this)" data-val="<?php echo base_url().'admin_category/delete_multi'?>">Xóa nhiều</button>
+				<button type="button" class="btn btn-danger" onclick="delete_multi(this)" data-val="<?php echo base_url().'admin_users/delete_multi'?>">Xóa nhiều</button>
 			</div>
 			<!-- /.panel-heading -->
 			<div class="panel-body">
@@ -154,8 +158,8 @@
                     
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_category/add'?>" id="save">Lưu</button>
-                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_category/update'?>" id="update" style="display: none;">Cập nhật</button>
+                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_users/add'?>" id="save">Lưu</button>
+                            <button type="button" class="btn btn-primary" onclick="saveItem(this)" href="<?php echo base_url().'admin_users/update'?>" id="update" style="display: none;">Cập nhật</button>
                             <button type="reset" class="btn btn-danger">Hủy</button>
                             <button type="button" onclick="back_to_list()" class="btn btn-warning">Danh sách</button>
                         </div>

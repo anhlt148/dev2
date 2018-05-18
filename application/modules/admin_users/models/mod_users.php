@@ -37,6 +37,22 @@ class Mod_users extends CI_Model{
 			return $arr;
 		}
 	}
+	// upload avatar:
+	public function uploadAvatar($image){
+
+		// $this->db->where('email', $arr['email']);
+		// $this->db->where_not_in('user_id', $id);
+		// $row = $this->db->count_all_results('users');
+		// if($row > 0){
+		// 	return false;
+		// }
+		// else{
+		// 	$this->db->where('user_id', $id);
+		// 	$this->db->update('users', $arr);
+		// 	$arr["user_id"] = $id;
+		// 	return $arr;
+		// }
+	}	
 	// Get item record:
 	public function getItem($id){
 		$this->db->where('user_id', $id);	

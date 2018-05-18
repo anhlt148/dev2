@@ -1,82 +1,107 @@
 $(document).ready(function() {
     reload_list();    
+    
+    On_Register_EffectImage();
 });
 // Hàm thêm mới or cập nhật
 function saveItem(el) {
     var code = $("#email").val().trim();
     var name = $("#user_name").val().trim();
+    var password = $("#password").val();
+    var password2 = $("#password2").val();
     var status = $("#status").val();
     var parent = $("#user_image").val();
-    var type = $("#user_role").val();
+    var role = $("#user_role").val();
     
-    if (code == '' || name == '' || status == '' || type == ''){
+    if (code == '' || name == '' || password == '' || password2 == '' || status == '' || role == ''){
         alert("Nhập thiếu thông tin.")
         return false;
     }
-    var data = {
+
+    if (password != password2) {
+        alert("Xác nhận mật khẩu chưa chính xác.")
+        return false;
+    }
+    var dataImages = $('.cropped img').attr('src'); 
+    if (dataImages.indexOf("http") == 0 || dataImages.indexOf("/male") == 0) {
+        Update();
+    }
+    else {
+        var url1 = base_url + "admin_users/uploadAvatar";
+        var data1 = { "data": { "image": dataImages } };
+        call_ajax("POST", url1, data1, function (data, textStatus, jqXHR) {
+            if (data != null && data.result != null){
+                var dataImages = data.result;
+                update();
+            }
+        }, function (jqXHR, textStatus, errorThrown) { alert(errorThrown); });
+    }
+    var data2 = {
         "data": {
             "email": code,
             "user_name": name,
             "status": status,
-            "user_image": parent,
+            "user_image": dataImages,
             "user_role": type
         }
     };
-    var url = $(el).attr("href");
-    if(currentRecord != null){
-        url += "?id=" + currentRecord.user_id;
+    var url2 = $(el).attr("href");
+    if (currentRecord != null) {
+        url2 += "?id=" + currentRecord.user_id;
     }
-    call_ajax("POST", url, data, function (data, textStatus, jqXHR) {
-        if (data != null && data.message == "") {
-            var rs = data.result;
-            var index = $('#grid_list tbody tr').length;
-            var html = "";
-            html += '<tr data-id="' + rs.user_id + '" data-email="' + rs.email+'">'
-            html += '<td>' + (index + 1) + '</td>'
-            html += '<td> <input class="check_item" type="checkbox" data-id="' + rs.user_id+'" onclick="checkOne(this)"></td>'
-            html += '<td>' + rs.email + '</td>'
-            html += '<td>' + rs.user_name + '</td>'
-            html += '<td>'
-            if (rs.status == "on") {
-                html += '<i class="fa fa-toggle-on" title="Hoạt động" onclick="location.href=\'' + $("#base_url").val() + 'admin_users/change_status/' + rs.user_id + '/' + rs.status + '\'"></i>'
+    function update() {
+        call_ajax("POST", url2, data2, function (data, textStatus, jqXHR) {
+            if (data != null && data.message == "") {
+                var rs = data.result;
+                var index = $('#grid_list tbody tr').length;
+                var html = "";
+                html += '<tr data-id="' + rs.user_id + '" data-email="' + rs.email + '">'
+                html += '<td>' + (index + 1) + '</td>'
+                html += '<td> <input class="check_item" type="checkbox" data-id="' + rs.user_id + '" onclick="checkOne(this)"></td>'
+                html += '<td>' + rs.email + '</td>'
+                html += '<td>' + rs.user_name + '</td>'
+                html += '<td>'
+                if (rs.status == "on") {
+                    html += '<i class="fa fa-toggle-on" title="Hoạt động" onclick="location.href=\'' + $("#base_url").val() + 'admin_users/change_status/' + rs.user_id + '/' + rs.status + '\'"></i>'
+                }
+                else {
+                    html += '<i class="fa fa-toggle-off" title="Khóa" onclick="location.href=\'' + $("#base_url").val() + 'admin_users/change_status/' + rs.user_id + '/' + rs.status + '\'"></i>'
+                }
+                html += '</td>'
+
+                html += '<td>' + rs.user_role + '</td>'
+                html += '<td>' + rs.user_image + '</td>'
+                html += '<td>'
+                // html += '<button type="button" class="btn btn-info" title="Xem" style="padding:1px 6px;"><i class="fa fa-info-circle"></i></button>'
+                html += '<button type="button" class="btn btn-warning" title="Sửa" onclick="confirm_edit(this);" style="padding:1px 6px; margin: 0 4px 0 0;" href="' + $("#base_url").val() + 'admin_users/edit/' + rs.user_id + '"><i class="fa fa-pencil-square-o"></i></button>'
+                html += '<button type="button" class="btn btn-danger" title="Xóa" onclick="on_delete_record(this);" href="' + $("#base_url").val() + 'admin_users/delete/' + rs.user_id + '" style="padding:1px 6px;"><i class="fa fa-trash-o"></i></button>'
+                html += '</td>'
+                html += '</tr>';
+                if (currentRecord == null) {
+                    $('#grid_list tbody').append(html);
+                    tempAlert("Thêm mới thành công.", 3000);
+                    $("#user_image").append('<option value="' + rs.email + '" user_role="' + rs.user_role + '">' + rs.user_name + '</option>');
+                }
+                else {
+                    if (element != null) {
+                        element.closest("tr").remove();
+                        $('#grid_list tbody').prepend(html);
+                        $('#grid_list tbody tr').each(function (i, el) {
+                            $(el).find("td:first").html((i + 1));
+                        });
+                    }
+                    tempAlert("Cập nhật thành công.", 3000);
+                }
+                $(".page-header").html("Danh mục");
+                back_to_list();
             }
             else {
-                html += '<i class="fa fa-toggle-off" title="Khóa" onclick="location.href=\'' + $("#base_url").val() + 'admin_users/change_status/' + rs.user_id + '/' + rs.status + '\'"></i>'
+                alert(data.message);
             }
-            html += '</td>'
-
-            html += '<td>' + rs.user_role + '</td>'
-            html += '<td>' + rs.user_image + '</td>'
-            html += '<td>'
-            // html += '<button type="button" class="btn btn-info" title="Xem" style="padding:1px 6px;"><i class="fa fa-info-circle"></i></button>'
-            html += '<button type="button" class="btn btn-warning" title="Sửa" onclick="confirm_edit(this);" style="padding:1px 6px; margin: 0 4px 0 0;" href="' + $("#base_url").val() + 'admin_users/edit/' + rs.user_id + '"><i class="fa fa-pencil-square-o"></i></button>'
-            html += '<button type="button" class="btn btn-danger" title="Xóa" onclick="on_delete_record(this);" href="' + $("#base_url").val() + 'admin_users/delete/' + rs.user_id + '" style="padding:1px 6px;"><i class="fa fa-trash-o"></i></button>'
-            html += '</td>'
-            html += '</tr>';
-            if (currentRecord == null){
-                $('#grid_list tbody').append(html);
-                tempAlert("Thêm mới thành công.", 3000);
-                $("#user_image").append('<option value="' + rs.email + '" user_role="' + rs.user_role +'">' + rs.user_name+'</option>');
-            }
-            else{
-                if(element != null){
-                    element.closest("tr").remove();
-                    $('#grid_list tbody').prepend(html);
-                    $('#grid_list tbody tr').each(function(i, el){
-                        $(el).find("td:first").html((i+1));
-                    });
-                }
-                tempAlert("Cập nhật thành công.", 3000);
-            }
-            $(".page-header").html("Danh mục");
-            back_to_list();
-        }
-        else{
-            alert(data.message);
-        }
-    }, function (jqXHR, textStatus, errorThrown) {
-        alert(errorThrown);
-    });
+        }, function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        });
+    }
 }
 function on_delete_record(el) {
     var role = $(".user_role").val().trim();
@@ -214,13 +239,40 @@ function reload_list(){
 }
 // phần upload ảnh:
 function on_openUploadAnh() {
-    // $('.fulcrum-modal-editor').css('display', 'none');
     $('#upload-modal').css('display', 'block');
     $('#overlay').css('display', 'block');
     $('#upload-modal .imageBox').css('background-image', '#fff'); // set lai khi chon anh dai dien.
 } 
 function onCancel_PopupUploadAnh() {
-    // $('.fulcrum-modal-editor').css('display', 'block');
     $('#upload-modal').hide();
     $('#overlay').css('display', 'none');
+}
+// preview image upload:
+function On_Register_EffectImage() {
+    var options =
+        {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png'
+        }
+    var cropper;
+    $('#file').on('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            options.imgSrc = e.target.result;
+            cropper = $('.imageBox').cropbox(options);
+        }
+        reader.readAsDataURL(this.files[0]);
+    })
+    $('#btnCrop').on('click', function () {
+        var img = cropper.getDataURL()
+        $('.cropped').html('<img src="' + img + '">');
+        onCancel_PopupUploadAnh();
+    })
+    $('#btnZoomIn').on('click', function () {
+        cropper.zoomIn();
+    })
+    $('#btnZoomOut').on('click', function () {
+        cropper.zoomOut();
+    })
 }
