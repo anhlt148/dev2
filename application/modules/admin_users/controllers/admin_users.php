@@ -29,7 +29,7 @@ class Admin_users extends CI_Controller{
 			$arr = $_POST['data'];
 			$row = $this->mod_users->insert($arr);
 			if($row == false){
-				$objReturn = array('result' => false, 'message' => "Danh mục đã tồn tại.");
+				$objReturn = array('result' => false, 'message' => "Tài khoản đã tồn tại.");
 			}
 			else{
 				$objReturn = array('result' => $row, 'message' => "");
@@ -60,7 +60,7 @@ class Admin_users extends CI_Controller{
 			$arr = $_POST['data'];
 			$row = $this->mod_users->update_one($id, $arr);
 			if($row == false){
-				$objReturn = array('result' => false, 'message' => "Danh mục đã tồn tại.");
+				$objReturn = array('result' => false, 'message' => "Tài khoản đã tồn tại.");
 			}
 			else{
 				$objReturn = array('result' => $row, 'message' => "");
@@ -115,19 +115,14 @@ class Admin_users extends CI_Controller{
 	// upload Avatar:
 	public function uploadAvatar() {
 		is_login();	
-		if (isset($_POST['data'])) {
-			$image = $_POST['data']["image"];
-			echo $image;
-			
-			// $row = $this->mod_users->uploadAvatar($image);
-			// if($row == false){
-			// 	$objReturn = array('result' => false, 'message' => "");
-			// }
-			// else{
-			// 	$objReturn = array('result' => $row, 'message' => "");
-			// }
-
-			
+		if (isset($_POST['image'])) {
+			$image = $_POST["image"];
+			$image_name = time().'.png';
+			$image_arr_1 = explode(",", $image);
+			$data = base64_decode($image_arr_1[1]);
+			$filePath = "images/avatars/".$image_name;
+			file_put_contents('.'.$filePath, $data);
+			$objReturn = array('result' => $filePath, 'message' => "");
 		}
 		else {
 			$objReturn = array('result' => false, 'message' => "Dữ liệu sai.");

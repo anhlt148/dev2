@@ -10,46 +10,71 @@ function saveItem(el) {
     var password = $("#password").val();
     var password2 = $("#password2").val();
     var status = $("#status").val();
-    var parent = $("#user_image").val();
-    var role = $("#user_role").val();
-    
-    if (code == '' || name == '' || password == '' || password2 == '' || status == '' || role == ''){
-        alert("Nhập thiếu thông tin.")
-        return false;
-    }
-
-    if (password != password2) {
-        alert("Xác nhận mật khẩu chưa chính xác.")
-        return false;
-    }
-    var dataImages = $('.cropped img').attr('src'); 
-    if (dataImages.indexOf("http") == 0 || dataImages.indexOf("/male") == 0) {
-        Update();
-    }
-    else {
-        var url1 = base_url + "admin_users/uploadAvatar";
-        var data1 = { "data": { "image": dataImages } };
-        call_ajax("POST", url1, data1, function (data, textStatus, jqXHR) {
-            if (data != null && data.result != null){
-                var dataImages = data.result;
-                update();
-            }
-        }, function (jqXHR, textStatus, errorThrown) { alert(errorThrown); });
-    }
+    var role = $("#user_role").val(); 
+    var dataImages = $('.cropped img').attr('src');
     var data2 = {
         "data": {
             "email": code,
             "user_name": name,
             "status": status,
+            "password": password,
             "user_image": dataImages,
-            "user_role": type
+            "user_role": role
         }
     };
-    var url2 = $(el).attr("href");
-    if (currentRecord != null) {
-        url2 += "?id=" + currentRecord.user_id;
+
+    var invalid = false;
+    if (currentRecord == null){
+        if (password == '' || password2 == '') {
+            invalid = true;
+        }
+        else if(password != password2) {
+            alert("Xác nhận mật khẩu chưa chính xác.")
+            return false;
+        } 
+    }
+    else{
+        delete data2.data.password;
+    }
+
+    if (code == '' || name == '' || status == '' || role == ''){
+        invalid = true;
+    }
+    if (invalid) {
+        alert("Nhập thiếu thông tin.");
+        return false;
+    }    
+
+    if (dataImages != null && dataImages.indexOf("images/male.png") >= 0) {
+        data2.data.user_image = $('#url_img').val();
+        update();
+    }
+    else if (currentRecord != null && dataImages.indexOf(currentRecord.user_image) >= 0){
+        data2.data.user_image = $('#url_img').val();
+        update();
+    }
+    else {
+        var url1 = base_url + "admin_users/uploadAvatar";
+        var data1 = {"image": dataImages};
+        console.log(data1);
+        call_ajax("POST", url1, data1, function (data, textStatus, jqXHR) {
+            console.log(data)
+            if (data != null && data.result != null && data.result != false && data.message == ""){
+                data2.data.user_image = data.result;
+                update();
+            }
+            else{
+                alert(data.message);
+                return false;
+            }
+        }, function (jqXHR, textStatus, errorThrown) { alert(errorThrown); });
     }
     function update() {
+        var url2 = $(el).attr("href");
+        var url2 = base_url +"admin_users/update";
+        if (currentRecord != null) {
+            url2 += "?id=" + currentRecord.user_id;
+        }
         call_ajax("POST", url2, data2, function (data, textStatus, jqXHR) {
             if (data != null && data.message == "") {
                 var rs = data.result;
@@ -69,8 +94,8 @@ function saveItem(el) {
                 }
                 html += '</td>'
 
-                html += '<td>' + rs.user_role + '</td>'
-                html += '<td>' + rs.user_image + '</td>'
+                html += '<td>' + obj_role[rs.user_role] + '</td>'
+                html += '<td><img class="img_user" src="' + base_url + rs.user_image+'"></td>'
                 html += '<td>'
                 // html += '<button type="button" class="btn btn-info" title="Xem" style="padding:1px 6px;"><i class="fa fa-info-circle"></i></button>'
                 html += '<button type="button" class="btn btn-warning" title="Sửa" onclick="confirm_edit(this);" style="padding:1px 6px; margin: 0 4px 0 0;" href="' + $("#base_url").val() + 'admin_users/edit/' + rs.user_id + '"><i class="fa fa-pencil-square-o"></i></button>'
@@ -91,6 +116,7 @@ function saveItem(el) {
                         });
                     }
                     tempAlert("Cập nhật thành công.", 3000);
+                    currentRecord = null;
                 }
                 $(".page-header").html("Danh mục");
                 back_to_list();
@@ -150,14 +176,14 @@ function on_edit(el) {
             // 
             $("#save").hide();
             $("#update").show();
+            $("#password, #password2").closest(".form-group").hide();
             // set value:
+            $("#url_img").val(currentRecord.user_image);
             $("#email").val(currentRecord.email);
             $("#user_name").val(currentRecord.user_name);
             $("#status").val(currentRecord.status);
-            $("#user_image").val(currentRecord.user_image);
+            $("#user_image img").attr("src", base_url + currentRecord.user_image);
             $("#user_role").val(currentRecord.user_role);
-            // ẩn mã danh mục cha của chính mình:
-            $("#user_image option[value='" + currentRecord.email+"']").hide();
             
         }
     }, function (jqXHR, textStatus, errorThrown) {
@@ -249,12 +275,11 @@ function onCancel_PopupUploadAnh() {
 }
 // preview image upload:
 function On_Register_EffectImage() {
-    var options =
-        {
-            thumbBox: '.thumbBox',
-            spinner: '.spinner',
-            imgSrc: 'avatar.png'
-        }
+    var options = {
+        thumbBox: '.thumbBox',
+        spinner: '.spinner',
+        imgSrc: 'avatar.png'
+    }
     var cropper;
     $('#file').on('change', function () {
         var reader = new FileReader();
@@ -265,14 +290,20 @@ function On_Register_EffectImage() {
         reader.readAsDataURL(this.files[0]);
     })
     $('#btnCrop').on('click', function () {
-        var img = cropper.getDataURL()
-        $('.cropped').html('<img src="' + img + '">');
-        onCancel_PopupUploadAnh();
+        if (cropper != null){
+            var img = cropper.getDataURL()
+            $('.cropped').html('<img src="' + img + '">');
+            onCancel_PopupUploadAnh();
+        }
     })
     $('#btnZoomIn').on('click', function () {
-        cropper.zoomIn();
+        if (cropper != null) {
+            cropper.zoomIn();
+        }
     })
     $('#btnZoomOut').on('click', function () {
-        cropper.zoomOut();
+        if (cropper != null) {
+            cropper.zoomOut();
+        }
     })
 }

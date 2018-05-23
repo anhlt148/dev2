@@ -5,12 +5,13 @@ class Mod_users extends CI_Model{
 	}
 	// get list cate type:
 	public function get_list(){
+		$this->db->select('user_id, user_name, status, email, user_image, user_role');
 		$query = $this->db->get('users');
 		return $query->result_array(); // trả về 1  mảng nhiều phần tử
 	}
 	// Thêm mới:
 	public function insert($arr){
-		$this->db->where('email',$arr['email']);
+		$this->db->where('email', $arr['email']);
 		$num = $this->db->count_all_results('users');
 		if($num > 0){
 			return false;
@@ -36,26 +37,11 @@ class Mod_users extends CI_Model{
 			$arr["user_id"] = $id;
 			return $arr;
 		}
-	}
-	// upload avatar:
-	public function uploadAvatar($image){
-
-		// $this->db->where('email', $arr['email']);
-		// $this->db->where_not_in('user_id', $id);
-		// $row = $this->db->count_all_results('users');
-		// if($row > 0){
-		// 	return false;
-		// }
-		// else{
-		// 	$this->db->where('user_id', $id);
-		// 	$this->db->update('users', $arr);
-		// 	$arr["user_id"] = $id;
-		// 	return $arr;
-		// }
 	}	
 	// Get item record:
 	public function getItem($id){
 		$this->db->where('user_id', $id);	
+		$this->db->select('user_id, user_name, status, email, user_image, user_role');
 		$query = $this->db->get('users');
 		$row = $query->row_array();
 		return $row;

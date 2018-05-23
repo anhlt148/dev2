@@ -7,7 +7,7 @@
 <script src="<?php echo base_url().'js/lib/uploadFile/filedrop.js'?>"></script>
 <script src="<?php echo base_url().'js/lib/uploadFile/script.js'?>"></script>
 <!-- end crop.-->
-
+<input type="hidden" id="url_img" value="images/male.png">
 <!-- upload ảnh dai dien.-->
 <div id="upload-modal" style="z-index: 10002; width: 500px; height: 350px; display: none;" class="modal">
     <div class="modal-header page-top">
@@ -141,11 +141,7 @@
                             <label for="">Hình ảnh</label>
                         </div>
                         <div class="col-lg-9">
-                            <!-- <select id="user_role" class="form-control">
-                                <option value="owner">Chủ sở hữu</option>
-                                <option value="admin">Quản trị</option>
-                            </select> -->
-                            <div class="cropped" style="padding-right:0px;padding-top:10px"><img src="<?php echo base_url().'images/male.png'?>"></div>
+                            <div id="user_image" class="cropped" style="padding-right:0px;padding-top:10px"><img src="<?php echo base_url().'images/male.png'?>"></div>
                             <div class="editable" style="width:auto !important;display:inline-block;">
                                 <a onclick="on_openUploadAnh();" style="cursor:pointer">
                                     <span style="color:black;font-weight:bold;font-size:12px;">Tải ảnh lên </span>
